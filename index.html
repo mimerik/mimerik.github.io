@@ -54,18 +54,6 @@
       transition: transform 0.1s ease-out;
       will-change: transform;
     }
-    @keyframes glassPulse {
-      0% {
-        backdrop-filter: url(#displacementFilter) blur(2px);
-        -webkit-backdrop-filter: url(#displacementFilter) blur(2px);
-        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.20), inset 0 0.5px 0 rgba(255, 255, 255, 0.20);
-      }
-      100% {
-        backdrop-filter: url(#displacementFilter) blur(6px);
-        -webkit-backdrop-filter: url(#displacementFilter) blur(6px);
-        box-shadow: 0 16px 56px rgba(0, 0, 0, 0.30), inset 0 0.5px 0 rgba(255, 255, 255, 0.35);
-      }
-    }
     .header-inner {
       display: flex;
       align-items: center;
