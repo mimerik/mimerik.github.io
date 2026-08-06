@@ -1,18 +1,458 @@
-<div class="container mt-5"> <!-- Основной контейнер с отступом сверху -->
-  <div class="row justify-content-center"> <!-- Строка, центрируем контент -->
-    <div class="col-md-8"> <!-- Колонка на 8 из 12 на средних экранах -->
-      
-      <div class="card shadow-sm"> <!-- Карточка с тенью -->
-        <div class="card-header bg-primary text-white"> <!-- Шапка -->
-          <h2 class="h4 mb-0">Заголовок</h2>
-        </div>
-        <div class="card-body">
-          <p class="lead">Это вводный текст.</p>
-          <p class="text-muted">Обычный текст с серым цветом.</p>
-          <button class="btn btn-success">Кнопка</button>
-        </div>
-      </div>
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>mimerik · проекты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0b0b0f;
+      letter-spacing: -0.02em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      cursor: default;
+    }
+    .background-wallpaper {
+      position: fixed;
+      inset: 0;
+      background-image: url('https://myimgs.org/storage/images/26141/images.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 0;
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+    }
+    .bg-liquid-glass {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: url(#displacementFilter) blur(6px);
+      -webkit-backdrop-filter: url(#displacementFilter) blur(6px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), inset 0 0.5px 0 rgba(255, 255, 255, 0.25), inset 0 -0.5px 0 rgba(255, 255, 255, 0.05);
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      animation: glassPulse 6s infinite alternate ease-in-out;
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+    }
+    @keyframes glassPulse {
+      0% {
+        backdrop-filter: url(#displacementFilter) blur(2px);
+        -webkit-backdrop-filter: url(#displacementFilter) blur(2px);
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.20), inset 0 0.5px 0 rgba(255, 255, 255, 0.20);
+      }
+      100% {
+        backdrop-filter: url(#displacementFilter) blur(6px);
+        -webkit-backdrop-filter: url(#displacementFilter) blur(6px);
+        box-shadow: 0 16px 56px rgba(0, 0, 0, 0.30), inset 0 0.5px 0 rgba(255, 255, 255, 0.35);
+      }
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 14px 0px;
+    }
+    .nickname {
+      font-size: 20px;
+      font-weight: 620;
+      color: rgba(255, 255, 255, 0.92);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .nickname:hover {
+      transform: scale(1.02);
+      color: rgba(255, 255, 255, 1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .nav-link {
+      font-size: 16px;
+      font-weight: 540;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.75);
+      padding: 4px 0;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.4);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .nav-link:hover {
+      color: #fff;
+      transform: scale(1.04);
+    }
+    .nav-link.btn {
+      padding: 8px 24px;
+      border-radius: 40px;
+      color: rgba(2, 2, 2, 0.92);
+      font-weight: 570;
+      background: rgba(255, 255, 255, 0.32);
+      backdrop-filter: url(#displacementFilter) blur(6px);
+      -webkit-backdrop-filter: url(#displacementFilter) blur(6px);
+      border: 2px solid rgba(255, 255, 255, 0.10);
+      font-size: 14px;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .nav-link.btn::after {
+      display: none;
+    }
+    .nav-link.btn:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.42);
+      border-color: rgba(255, 255, 255, 0.20);
+      box-shadow: 0 8px 32px rgba(255, 255, 255, 0.10);
+    }
+    .nav-link.btn:active {
+      transform: scale(0.94);
+      transition-duration: 0.08s;
+    }
+    .main-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      gap: 28px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 80px;
+      padding: 32px 40px;
+      margin-left: 20px;
+      margin-right: 20px;
+      perspective: 1200px;
+    }
+    .card {
+      width: 280px;
+      height: 280px;
+      border-radius: 32px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: url(#displacementFilter) blur(6px);
+      -webkit-backdrop-filter: url(#displacementFilter) blur(6px);
+      border: 2px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), inset 0 0.5px 0 rgba(255, 255, 255, 0.25), inset 0 -0.5px 0 rgba(255, 255, 255, 0.05);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      will-change: transform, box-shadow;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 32px;
+      background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      pointer-events: none;
+    }
+    .card:hover::before {
+      opacity: 1;
+    }
+    .card:hover {
+      transform: scale(1.04) translateY(-4px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg));
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.40), inset 0 0.5px 0 rgba(255, 255, 255, 0.35), inset 0 -0.5px 0 rgba(255, 255, 255, 0.10);
+      border-color: rgba(255, 255, 255, 0.20);
+    }
+    .card:active {
+      transform: scale(0.94) translateY(0px) rotateX(0deg) rotateY(0deg);
+      transition-duration: 0.08s;
+    }
+    .card-content {
+      text-align: center;
+      padding: 20px 24px;
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateZ(20px);
+      backface-visibility: hidden;
+    }
+    .card:hover .card-content {
+      transform: scale(1.02) translateZ(30px);
+    }
+    .card-title {
+      font-size: 28px;
+      font-weight: 620;
+      margin-bottom: 14px;
+      letter-spacing: -0.03em;
+      color: #fff;
+      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .card:hover .card-title {
+      text-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+    }
+    .card-divider {
+      width: 180px;
+      height: 2px;
+      margin: 0 auto 14px;
+      background: rgba(255, 255, 255, 0.12);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .card:hover .card-divider {
+      width: 200px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .card-description {
+      font-size: 17px;
+      font-weight: 480;
+      line-height: 1.6;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .card:hover .card-description {
+      color: rgba(255, 255, 255, 1);
+    }
+    .socials-footer {
+      position: fixed;
+      bottom: 28px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      padding: 10px 24px;
+      width: fit-content;
+      margin: 0 auto;
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+    }
+    .social-link {
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 4px 8px;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.65);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      cursor: pointer;
+    }
+    .social-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .social-link:hover::after {
+      width: 80%;
+    }
+    .social-link:hover {
+      color: rgba(255, 255, 255, 0.95);
+      transform: scale(1.08) translateY(-2px);
+    }
+    .social-link:active {
+      transform: scale(0.92) translateY(0px);
+      transition-duration: 0.08s;
+    }
+    @media (max-width: 700px) {
+      .header-inner {
+        padding: 8px 16px;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .nav-links {
+        gap: 6px;
+      }
+      .nav-link {
+        font-size: 12px;
+      }
+      .nav-link.btn {
+        padding: 5px 14px;
+        font-size: 12px;
+      }
+      .nickname {
+        font-size: 15px;
+      }
+      .main-content {
+        margin-top: 70px;
+        gap: 16px;
+        padding: 20px;
+        margin-left: 12px;
+        margin-right: 12px;
+      }
+      .card {
+        width: 240px;
+        height: 240px;
+      }
+      .card-title {
+        font-size: 24px;
+      }
+      .socials-footer {
+        gap: 16px;
+        padding: 8px 16px;
+        bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .social-link {
+        font-size: 13px;
+      }
+    }
+    @media (max-width: 480px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: center;
+        padding: 6px 12px;
+      }
+      .nav-links {
+        margin-top: 2px;
+      }
+      .card {
+        width: 90vw;
+        max-width: 260px;
+        height: 90vw;
+        max-height: 260px;
+      }
+      .card-content {
+        padding: 16px 18px;
+      }
+      .socials-footer {
+        gap: 12px;
+        padding: 6px 12px;
+      }
+      .main-content {
+        padding: 16px;
+        margin-top: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <svg style="display: none" aria-hidden="true">
+    <filter id="displacementFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAMoElEQVRogZ1a3ZqjyI6MkBJc3XOz7/+g+53pMoq9kJQk2K6Zs0yNGzAG/YRCSgn+/r0PYpCD2IEH+SC/yIdZfj6MD9pu3M02cjMb5KC50cycNBoJ0kiCJKn8BEWCACgCAkAAIAhQAGAAIRccNGIDBjCADdilHdilh/QAH9AX+DA+yN1sM9vAYRw2SIKg1dNJkm61Y0YzGkmDGc1A0og8JEGT1Q1gBCkQJEgArENgCi4QFDR1AABIAEEJggAIECRJogBJeblIkLK0AUEOjpQUBMzMyPk/naTRUvTUgTQDjWZESmxgfgJGIA8poE62+HNHvSeJedzngdYgZZaASNepr1HelgQhYthuhjKrpaBmrP+MZuUHt9IqP9mKWnkEZiAxzc8UkgQFkDzFLAeohZJw7qh3InRAIYYUQAhBCOVStauHbaTBQXMaPWV2L4Sb08ytxPUS1wxmaftohIEX0QkT076Fe1UcZExISB3Uhp3Ctw9CSt0i2jMSKCKmP4nBB70AYsbEudtwcx++DR/DbJi7mafh6WVs2sSPQJql+Zmxm9Y/kVPSsw1OlB/K3gIhEwI4ICqDO47QM8Lj2BShCFHMCEnTaPhXYd5TBXN3H2N/7PtjezzG/nDfzDe6kw66+cRQBsQKfaSLK2RXBU6Y84SSFtwrhCOjNcULAaEIHId/f38f37tCoQAEBCBQ0uCXO+E0N7rb5j58e+y/f339/v3462t7bDaGuTMZkwZ6RgBIEvk50d/Si1DGMi8KqHVicc8ZstEIknBAh3Aojjjw/Obzb/v7z/78ez9CVAhKiAHDv8qYLPSPfX/8+vX719f//Nr/2rd9s+FWdOPNWCk9KzpZzM7Cjdr2J0+CnPSji+yEAATAPqeCO0IRccTzie9tH//7/A+ex98hISoeAhr2SCah08wSPV/7778eX3899t/DNrdJnMVXGapW4hbceSLnZP4VP9P20jw76afUUAMqACkkQYPb+OP8j8WXjnhGxHFECBQEcPCr2JFGp49tG4992x/742GeadcIFNXgBE3zQJ1sE99wX0Q/sbXkrsvRCa+ZCxonh/jc9Y3vZ4yDT4UiEJLIkIZ9mYFmNtLGw20bY9vMh/mocAVViM/Yb7uDInlyJRfEL9C/RO881HJGEFtZQJnBLc8LDBwxxrF7wCNiZmmBw3abGcvo5u6bcTg9MzEh4sXkrUMVBLwY/oV83m7pNgEpO1sNZDSUtWAZL6ag3GKjghIVRabDdzeaZx6AmRs35yCsLTq5pUHPhW1O/LwXnauVr1t7RQuvcuYHAKpUSIYgMzkhyiAwQkWjtruDltUlRuZf+qx/WCiZ9cdCO9OQn23fmp940eUrCMwgpgArNVQRiqo5YJBn8UGJQEAsCPnmDnoXOk7H8CQm2Mru09LzD1cs/ajAaXV79cUstZupqoA6CcsIIZyiEIiqMxJCw410ZJ5y0tyJTrbT0h20L9J/9MNVE85/rrFbUs4I4HpeVXJKAVlWIQxrjpJEDPOytlkyvaOL0AUti7icKt00WSR+5SKhi5eVTtdMrdUH0kJveRElL29nJi4P2Kh1SqcqTvzwLmsF9Sn0xwC4UdDbzHaTm7WqqeDOmpuiQCIaRVVr5dIHQHmgFlqmWqmwFll5La/QZ+P61Q/9mUkNpzxX2c8lzZReaJOvsdCHygVAUAYJwUxzDGDQ5wLRDEZ5umHlnKvtL5iZCe6uxksk36XXTb1Xn+R9VKkzuSgoEmZSZOk0LFcyuSYrD3T4LtIvbHMR9L0H3oTvi+3Lf1otnd92NPfCIRc7hGSy6hXUugwYtQyWmVmulgm78D1XWW5S/iD9HezvtlfpZ3CXDmWlJCMjZAELSvAswIeZTfxkAjtDtrI9X2RdDf9WsZv9Lwb+IDcnVXE9vER/rvVy0Vc5wgzu8FMHeHqA5++4yLJq8rMTbpd90vPyqeVQ19/OsiI/xVozDaMbaLLsmWR3oYJmeeQ1Kv9RxJsf5vaD7W/kc95B/XlKn9eQgHJ9PkU3g6E8cIoyeeaKnFWTH3b+q1D5IXJOL6kWxBRg7GZVU03uGLhQp2636SB58+BXV9xUvetzWyq8/Xk7YWny9WaE5anknyyrVgy+M+fbJ93M/Oknr9sPqHvxku7ONCBbUGwdzr+K/PePfCv6W7F+UO9ywZuc9vLzeU35ROgYmDpk1/WN+f/l9paLflCPL6fOMwu6lLUbs4brOABglKXQldl62f7JBv8k+n+98ePRHauq/kXvIxWoFmGmYauerz5J/BoDc9PLlf8k7Rs/XPsU77cmeBGAUYQKQiV9k8+rT3/cbpe9fbxeD/Xm/PvnMoXXSYwUzJr1iTlamYy7pvJ/3N4uFOff/2Ob04OWWK8eaw6d31GmPqTeWv+tl+/08Gnh+7r/zxZqSjmlLLUEcXRqarqYJe3lQe+f8qKgfoyKtzp8MsFlu4ZdO0UkZZgeOlsCuCpx2X138hXZPwfAv0fUTKtYhWq6zPCtb7he11HwD0Lw5cz1UJ8NfH7qZyeUDDUUnAzTa1blWOUknHzmOVJ70eEDRG5i3aDy0fYXTjnFAq5wB9AzsbZtMiY1ijKN6hblyaB97+Ve1XA6EyT4Y0n8ul2Uud58VeyycyV1nRASLBXJYpt2XQW8mutFgs+k9IlVbzv3Gy6EeOqmU/pe8mbdbBhFpPOurGKjdU87lYG7WwNBOX2vFSBnUEwP4IMTrvpXE1TvKPvs5FNIwukUm01zGDBy7Jfd1e43anJv31arC+uwwr+/Onmre5pamw7vdVjgevfJ+txqRVmPPxMvIsAhx5nS1U3hALITebFKD0bvlsbd8BcS+yj9y7darFAgWNfm2U8x5mqrwD7gU/wUUTUwj1sqTqtnHJ9d2G4itL2n7d6IfhX0JLv3V5Zz2HFnVXUmU3bvhINeaqdzJPEQONvgN0yfcXU+pn/auJrS/FjecbJQBcPCp7XPs0gQTTVZN/asUSQGvSdb1TVtrUO3x7bNl4nQyaq44Gr96RrPd1C9wImn9OdTa34LmuiiJ51EQYhb1qHdwIq2ztoau2eAoiau2p3Mpbvpb85YvMSrDpwj5v66gQQ6MECHeQ6ZSMCoga3SQiKfQQAIQmd1NAclyoyIOdW9RsgFJG9TyXLBawDwclkzppj8YzIXh+DZfcjFlw2NnJaVDnFAgELIt0Im68xIPcXFkk3/fQSvoresN33WZk5lAdDB0X+A2cwDe1JP5i/CJECHEksFHS3PzmUGm4h068JqccZE1HL+1SFr3F/VKD8Q5qmAbAcd3UAXwIGHEMzkq5CegqQnFKpUgJo9vFD/VeiLGlex1mi+A+ZF9NlcQOEaBpg4xB3cZCNbo6kDB/bm5chJpwKBI6QIhcmkGvEscvfsKSPijt77diEprqGPnsqAKFqsHEhgzvgsfMi2sE22ywaybCNAw+DeHkvMuALHoe8Dw2k6OqwZC7+tcQzcC5nGUI3dsfiIa52FHmrPYE2TlAsV2bEaI3w8t8cxHoc/wAFI9Gq0D37RauhBShrS0GHHk9/m8OdQ0MFDsE4UBEw43wZIyS4R/NEPtd+/5Aqk2VojDNnmj0GN7bnvf/Zff7avw7fDh5w01GuSg49eKgQA46E4jm//5gb+ifh+ejBkFhXQJhgQoqWZZqu76sEzF826SZp+KKyzxZ3Qz4ZUNacgJ5wYjM31tT9/7X++Ht/b4+kuOskga4w3+EVEY0OKgAmxP78fwvMYTzuCLrhgwXrzol8ctO71sVj4bMovpYYWQBHz336jlN0ezL6aQ8MwKCc2xu56+PPXFvv2HEOVELrhT8PQXgFTr6+IEXHsxHEwQgc8KEABE0aVLTAxXxJL+J3NvJM/EiWFk7N866ivV0t7oIKckEKDGIQzdtcG7B4P0/AYLmOQSPTnRIPkwKOKgswDqnqUETpCQL2JR5ChrFBTn9RWUivASvqauGoU9QtAlRNmbZPrlLJ9v5QLGTEMngHgcmKYzETO+VdOISlhxKNeAGE6PtOWInkpJ+IUQjLNfKekpXRFLbVbh8XOXX0vyOl1d2eMjKosgZofsnYAROtpmFULEcsMGDASQ3t6WpbLmJyCZySklFAIEcpXOxkpgBigGIBJyPqql4d5p+aXtUaizhfCiX7Pes7UaSJIE7C8nFrXdAPU5uyCAIe2IoyADMwJeOK7DV+LnNyvMjtfyy78GM7XPc/grXeje2mFfqdO6CbURRLAquggOeXukJ2pF0V4pwIjpotzdFw4yUIi+iXIwo9KpWg+73FDgUL9YnSTEdfVLuv1MhE2XyrlJCXjgiLU6AXovAsqybPKAlHA/wH75uVy+EFM3wAAAABJRU5ErkJggg==" preserveAspectRatio="none" />
+      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="720" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+  <div class="background-wallpaper" id="bgWallpaper"></div>
+  <header class="header bg-liquid-glass" id="header">
+    <div class="header-inner">
+      <span class="nickname">mimerik</span>
+      <nav class="nav-links">
+        <a href="https://osu.ppy.sh" target="_blank" rel="noopener" class="nav-link btn">osu!</a>
+        <a href="https://www.minecraft.net" target="_blank" rel="noopener" class="nav-link btn">minecraft</a>
+      </nav>
     </div>
-  </div>
-</div>
+  </header>
+  <main class="main-content" id="mainContent">
+    <a href="https://osu.ppy.sh" target="_blank" rel="noopener" class="card" data-parallax>
+      <div class="card-content">
+        <div class="card-title">osu!</div>
+        <div class="card-divider"></div>
+        <div class="card-description">my skins</div>
+      </div>
+    </a>
+    <a href="https://www.minecraft.net" target="_blank" rel="noopener" class="card" data-parallax>
+      <div class="card-content">
+        <div class="card-title">minecraft</div>
+        <div class="card-divider"></div>
+        <div class="card-description">my server<br/>my modpack</div>
+      </div>
+    </a>
+  </main>
+  <footer class="socials-footer" id="footer">
+    <a href="https://t.me/" target="_blank" rel="noopener" class="social-link">telegram</a>
+    <a href="https://discord.com/" target="_blank" rel="noopener" class="social-link">discord</a>
+    <a href="https://youtube.com/" target="_blank" rel="noopener" class="social-link">youtube</a>
+    <a href="https://github.com/" target="_blank" rel="noopener" class="social-link">github</a>
+  </footer>
+  <script>
+    (function() {
+      const cards = document.querySelectorAll('[data-parallax]');
+      const bg = document.getElementById('bgWallpaper');
+      const footer = document.getElementById('footer');
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetX = 0;
+      let targetY = 0;
+      let currentX = 0;
+      let currentY = 0;
+
+      function updateMouse(e) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        targetX = x;
+        targetY = y;
+      }
+
+      function animate() {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        cards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const deltaX = (mouseX - centerX) / (window.innerWidth / 2);
+          const deltaY = (mouseY - centerY) / (window.innerHeight / 2);
+          const cardRotY = deltaX * -6;
+          const cardRotX = deltaY * 6;
+          card.style.setProperty('--rotateX', cardRotX + 'deg');
+          card.style.setProperty('--rotateY', cardRotY + 'deg');
+        });
+        if (bg) {
+          bg.style.transform = `translate(${currentX * -6}px, ${currentY * -6}px) scale(1.02)`;
+        }
+        if (footer) {
+          footer.style.transform = `translate(${currentX * 2}px, ${currentY * 2}px)`;
+        }
+        requestAnimationFrame(animate);
+      }
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        updateMouse(e);
+      });
+      animate();
+    })();
+  </script>
+</body>
+</html>
