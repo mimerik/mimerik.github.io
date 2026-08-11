@@ -1,446 +1,110 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>mimerik · проекты</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #0b0b0f;
-      letter-spacing: -0.02em;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      cursor: default;
-    }
-    .background-wallpaper {
-      position: fixed;
-      inset: 0;
-      background-image: url('https://i.giphy.com/dtRtziZF2px2skZV4J.webp');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: 0;
-      transition: transform 0.1s ease-out;
-      will-change: transform;
-    }
-    .bg-liquid-glass {
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: url(#displacementFilter) blur(2px);
-      -webkit-backdrop-filter: url(#displacementFilter) blur(2px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.20);
-      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), inset 0 0.5px 0 rgba(255, 255, 255, 0.25), inset 0 -0.5px 0 rgba(255, 255, 255, 0.05);
-    }
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      animation: glassPulse 6s infinite alternate ease-in-out;
-      transition: transform 0.1s ease-out;
-      will-change: transform;
-    }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 14px 0px;
-    }
-    .nickname {
-      font-size: 20px;
-      font-weight: 620;
-      color: rgba(255, 255, 255, 0.92);
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .nickname:hover {
-      transform: scale(1.02);
-      color: rgba(255, 255, 255, 1);
-    }
-    .nav-links {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-    .nav-link {
-      font-size: 16px;
-      font-weight: 540;
-      text-decoration: none;
-      color: rgba(255, 255, 255, 0.75);
-      padding: 4px 0;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      position: relative;
-    }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.4);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-    .nav-link:hover::after {
-      width: 100%;
-    }
-    .nav-link:hover {
-      color: #fff;
-      transform: scale(1.04);
-    }
-    .nav-link.btn {
-      padding: 8px 24px;
-      border-radius: 40px;
-      color: rgba(222, 222, 222, 0.92);
-      font-weight: 570;
-      background: rgba(2, 2, 2, 0.33);
-      backdrop-filter: url(#displacementFilter) blur(2px);
-      -webkit-backdrop-filter: url(#displacementFilter) blur(2px);
-      border: 2px solid rgba(255, 255, 255, 0.10);
-      font-size: 14px;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .nav-link.btn::after {
-      display: none;
-    }
-    .nav-link.btn:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.42);
-      border-color: rgba(255, 255, 255, 0.20);
-      box-shadow: 0 8px 32px rgba(255, 255, 255, 0.10);
-    }
-    .nav-link.btn:active {
-      transform: scale(0.94);
-      transition-duration: 0.08s;
-    }
-    .main-content {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      gap: 28px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 80px;
-      padding: 32px 40px;
-      margin-left: 20px;
-      margin-right: 20px;
-      perspective: 1200px;
-    }
-    .card {
-      width: 280px;
-      height: 280px;
-      border-radius: 32px;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: url(#displacementFilter) blur(2px);
-      -webkit-backdrop-filter: url(#displacementFilter) blur(2px);
-      border: 2px solid rgba(255, 255, 255, 0.10);
-      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), inset 0 0.5px 0 rgba(255, 255, 255, 0.25), inset 0 -0.5px 0 rgba(255, 255, 255, 0.05);
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      will-change: transform, box-shadow;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transform-style: preserve-3d;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 32px;
-      background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      pointer-events: none;
-    }
-    .card:hover::before {
-      opacity: 1;
-    }
-    .card:hover {
-      transform: scale(1.04) translateY(-4px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg));
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.40), inset 0 0.5px 0 rgba(255, 255, 255, 0.35), inset 0 -0.5px 0 rgba(255, 255, 255, 0.10);
-      border-color: rgba(255, 255, 255, 0.20);
-    }
-    .card:active {
-      transform: scale(0.94) translateY(0px) rotateX(0deg) rotateY(0deg);
-      transition-duration: 0.08s;
-    }
-    .card-content {
-      text-align: center;
-      padding: 20px 24px;
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      transform: translateZ(20px);
-      backface-visibility: hidden;
-    }
-    .card:hover .card-content {
-      transform: scale(1.02) translateZ(30px);
-    }
-    .card-title {
-      font-size: 28px;
-      font-weight: 620;
-      margin-bottom: 14px;
-      letter-spacing: -0.03em;
-      color: #fff;
-      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .card:hover .card-title {
-      text-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
-    }
-    .card-divider {
-      width: 180px;
-      height: 2px;
-      margin: 0 auto 14px;
-      background: rgba(255, 255, 255, 0.12);
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .card:hover .card-divider {
-      width: 200px;
-      background: rgba(255, 255, 255, 0.25);
-    }
-    .card-description {
-      font-size: 17px;
-      font-weight: 480;
-      line-height: 1.6;
-      letter-spacing: -0.02em;
-      color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .card:hover .card-description {
-      color: rgba(255, 255, 255, 1);
-    }
-    .socials-footer {
-      position: fixed;
-      bottom: 28px;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: center;
-      gap: 28px;
-      padding: 10px 24px;
-      width: fit-content;
-      margin: 0 auto;
-      transition: transform 0.1s ease-out;
-      will-change: transform;
-    }
-    .social-link {
-      font-size: 15px;
-      font-weight: 500;
-      text-decoration: none;
-      padding: 4px 8px;
-      letter-spacing: -0.02em;
-      color: rgba(255, 255, 255, 0.65);
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative;
-      cursor: pointer;
-    }
-    .social-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.3);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-    .social-link:hover::after {
-      width: 80%;
-    }
-    .social-link:hover {
-      color: rgba(255, 255, 255, 0.95);
-      transform: scale(1.08) translateY(-2px);
-    }
-    .social-link:active {
-      transform: scale(0.92) translateY(0px);
-      transition-duration: 0.08s;
-    }
-    @media (max-width: 700px) {
-      .header-inner {
-        padding: 8px 16px;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .nav-links {
-        gap: 6px;
-      }
-      .nav-link {
-        font-size: 12px;
-      }
-      .nav-link.btn {
-        padding: 5px 14px;
-        font-size: 12px;
-      }
-      .nickname {
-        font-size: 15px;
-      }
-      .main-content {
-        margin-top: 70px;
-        gap: 16px;
-        padding: 20px;
-        margin-left: 12px;
-        margin-right: 12px;
-      }
-      .card {
-        width: 240px;
-        height: 240px;
-      }
-      .card-title {
-        font-size: 24px;
-      }
-      .socials-footer {
-        gap: 16px;
-        padding: 8px 16px;
-        bottom: 16px;
-        flex-wrap: wrap;
-      }
-      .social-link {
-        font-size: 13px;
-      }
-    }
-    @media (max-width: 480px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: center;
-        padding: 6px 12px;
-      }
-      .nav-links {
-        margin-top: 2px;
-      }
-      .card {
-        width: 90vw;
-        max-width: 260px;
-        height: 90vw;
-        max-height: 260px;
-      }
-      .card-content {
-        padding: 16px 18px;
-      }
-      .socials-footer {
-        gap: 12px;
-        padding: 6px 12px;
-      }
-      .main-content {
-        padding: 16px;
-        margin-top: 60px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mimerik</title>
+    <link rel="icon" href="https://s.namemc.com/2d/skin/face.png?id=797f1263b0b15f46&scale=4" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<base target="_self">
 </head>
 <body>
-  <svg style="display: none" aria-hidden="true">
-    <filter id="displacementFilter" x="-20%" y="-20%" width="140%" height="140%">
-      <feImage href="data:image/png;base64,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" preserveAspectRatio="none" />
-      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="720" xChannelSelector="R" yChannelSelector="G" />
-    </filter>
-  </svg>
-  <div class="background-wallpaper" id="bgWallpaper"></div>
-  <header class="header bg-liquid-glass" id="header">
-    <div class="header-inner">
-      <span class="nickname">mimerik</span>
-      <nav class="nav-links">
-        <a href="https://osu.ppy.sh" target="_blank" rel="noopener" class="nav-link btn">osu!</a>
-        <a href="https://www.minecraft.net" target="_blank" rel="noopener" class="nav-link btn">minecraft</a>
-      </nav>
-    </div>
-  </header>
-  <main class="main-content" id="mainContent">
-    <a href="https://osu.ppy.sh" target="_blank" rel="noopener" class="card" data-parallax>
-      <div class="card-content">
-        <div class="card-title">osu!</div>
-        <div class="card-divider"></div>
-        <div class="card-description">my skins</div>
-      </div>
-    </a>
-    <a href="https://www.minecraft.net" target="_blank" rel="noopener" class="card" data-parallax>
-      <div class="card-content">
-        <div class="card-title">minecraft</div>
-        <div class="card-divider"></div>
-        <div class="card-description">my server<br/>my modpack</div>
-      </div>
-    </a>
-  </main>
-  <footer class="socials-footer" id="footer">
-    <a href="https://t.me/" target="_blank" rel="noopener" class="social-link">telegram</a>
-    <a href="https://discord.com/" target="_blank" rel="noopener" class="social-link">discord</a>
-    <a href="https://youtube.com/" target="_blank" rel="noopener" class="social-link">youtube</a>
-    <a href="https://github.com/" target="_blank" rel="noopener" class="social-link">github</a>
-  </footer>
-  <script>
-    (function() {
-      const cards = document.querySelectorAll('[data-parallax]');
-      const bg = document.getElementById('bgWallpaper');
-      const footer = document.getElementById('footer');
-      let mouseX = 0;
-      let mouseY = 0;
-      let targetX = 0;
-      let targetY = 0;
-      let currentX = 0;
-      let currentY = 0;
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="https://s.namemc.com/2d/skin/face.png?id=797f1263b0b15f46&scale=4" alt="mimerik" class="logo-img">
+            <span>mimerik</span>
+        </a>
+        <div class="nav-controls">
+            <button class="lang-btn" id="langBtn" aria-label="Switch language">
+                <img src="https://flagcdn.com/w40/gb.png" alt="EN" class="flag" id="flagImg">
+            </button>
+            <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+                <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
 
-      function updateMouse(e) {
-        const x = (e.clientX / window.innerWidth - 0.5) * 2;
-        const y = (e.clientY / window.innerHeight - 0.5) * 2;
-        targetX = x;
-        targetY = y;
-      }
+    <main>
+        <div class="hero">
+            <h1 data-i18n="title" class="gradient-title">main projects</h1>
+            <p data-i18n="subtitle">my osu and minecraft projects</p>
+        </div>
 
-      function animate() {
-        currentX += (targetX - currentX) * 0.08;
-        currentY += (targetY - currentY) * 0.08;
-        cards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-          const centerX = rect.left + rect.width / 2;
-          const centerY = rect.top + rect.height / 2;
-          const deltaX = (mouseX - centerX) / (window.innerWidth / 2);
-          const deltaY = (mouseY - centerY) / (window.innerHeight / 2);
-          const cardRotY = deltaX * -6;
-          const cardRotX = deltaY * 6;
-          card.style.setProperty('--rotateX', cardRotX + 'deg');
-          card.style.setProperty('--rotateY', cardRotY + 'deg');
-        });
-        if (bg) {
-          bg.style.transform = `translate(${currentX * -6}px, ${currentY * -6}px) scale(1.02)`;
-        }
-        if (footer) {
-          footer.style.transform = `translate(${currentX * 2}px, ${currentY * 2}px)`;
-        }
-        requestAnimationFrame(animate);
-      }
+        <div class="cards cards-half">
+            <a href="osu-skins.html" class="card card-half" target="_self">
+                <div class="card-glass">
+                    <div class="card-icon osu">
+                        <img src="https://a.ppy.sh/15468975?1766821510.jpeg" alt="osu!" class="osu-avatar">
+                    </div>
+                    <h2 data-i18n="osuTitle">osu! skins</h2>
+                    <p data-i18n="osuDesc">custom self-maded skins collection</p>
+                    <span class="arrow">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 10h12M10 4l6 6-6 6"/>
+                        </svg>
+                    </span>
+                </div>
+            </a>
 
-      document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        updateMouse(e);
-      });
-      animate();
-    })();
-  </script>
+            <a href="#" class="card card-half" target="_self">
+                <div class="card-glass">
+                    <div class="card-icon mc">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <rect x="7" y="7" width="34" height="34" rx="6"/>
+                            <rect x="16" y="16" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+                            <rect x="26" y="16" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+                            <rect x="16" y="26" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+                            <rect x="26" y="26" width="6" height="6" rx="1" fill="currentColor" stroke="none"/>
+                        </svg>
+                    </div>
+                    <h2 data-i18n="mcTitle">minecraft server</h2>
+                    <p data-i18n="mcDesc">my own fully vanilla minecraft server</p>
+                    <span class="arrow">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 10h12M10 4l6 6-6 6"/>
+                        </svg>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="socials">
+            <a href="https://github.com/mimerik" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+            <a href="https://discordapp.com/users/578286553923584016" target="_blank" rel="noopener" aria-label="Discord">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@UCnj5whAP9S4E3BdW3iuBWZA" target="_blank" rel="noopener" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://t.me/+N1ald-0Hx380ODky" target="_blank" rel="noopener" aria-label="Telegram">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </a>
+            <a href="https://www.twitch.tv/hety_mambl" target="_blank" rel="noopener" aria-label="Twitch">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+            </a>
+        </div>
+        <p class="copy">&copy; 2026 mimerik</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
