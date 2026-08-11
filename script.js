@@ -11,47 +11,31 @@ const i18n = {
         download:    'download',
         skin1Title:  'silent hill small 2',
         skin1Desc:   'smaller circlesize for easier reading',
-        skin2Title:  '2',
-        skin2Desc:   '2d',
-        skin3Title:  '3',
-        skin3Desc:   '3d',
-        skin4Title:  '4',
-        skin4Desc:   '4d',
-        skin5Title:  '5',
-        skin5Desc:   '5d',
-        skin6Title:  '6',
-        skin6Desc:   '6d'
+        skin2Title:  'Coming soon...',
+        skin2Desc:   '...',
     },
     ru: {
         title:       'мои проекты',
-        subtitle:    'мои скины и майнкрафт сервер',
-        osuTitle:    'osu скины',
+        subtitle:    'мои скины и minecraft сервер',
+        osuTitle:    'osu! скины',
         osuSubtitle: 'коллекция моих кастомных скинов',
         osuDesc:     'кастомные скины для osu — минималистичные и лёгкие',
-        mcTitle:     'майнкрафт сервер',
-        mcDesc:      'мой собственный полностью ванильный майнкрафт сервер',
+        mcTitle:     'minecraft сервер',
+        mcDesc:      'мой собственный полностью ванильный minecraft сервер',
         flag:        'https://flagcdn.com/w40/ru.png',
         download:    'скачать',
         skin1Title:  'silent hill small 2',
-        skin1Desc:   'уменьшенные круги для легкого чтения',
-        skin2Title:  '2',
-        skin2Desc:   '2д',
-        skin3Title:  '3',
-        skin3Desc:   '3д',
-        skin4Title:  '4',
-        skin4Desc:   '4д',
-        skin5Title:  '5',
-        skin5Desc:   '5д',
-        skin6Title:  '6',
-        skin6Desc:   '6д'
+        skin1Desc:   'уменьшенные круги для лёгкого чтения',
+        skin2Title:  'Скоро',
+        skin2Desc:   '...',
     }
 };
 
 const skinData = {
-    midnight: {
+    silenthillsmall2: {
         title: 'silent hill small 2',
         version: 'v1.0',
-        desc: { en: 'smaller circlesize for easier reading', ru: 'уменьшенные круги для легкого чтения' },
+        desc: { en: 'smaller circlesize for easier reading', ru: 'уменьшенные круги для лёгкого чтения' },
         images: [
             'https://github.com/mimerik/mimerik.github.io/blob/main/osu/skins/silent%20hill%20small%202/screenshots/s1.png?raw=true',
             'https://github.com/mimerik/mimerik.github.io/blob/main/osu/skins/silent%20hill%20small%202/screenshots/s2.png?raw=true',
@@ -59,58 +43,14 @@ const skinData = {
         ],
         download: 'https://github.com/mimerik/mimerik.github.io/raw/refs/heads/main/osu/skins/silent%20hill%20small%202/-%20silent%20hill%20small%202.osk'
     },
-    ocean: {
-        title: '2',
-        version: 'v1.0',
-        desc: { en: '2d', ru: '2д' },
+    incoming: {
+        title: 'Coming soon...',
+        version: 'v0.0',
+        desc: { en: '...', ru: '...' },
         images: [
-            'https://placehold.co/800x450/1a2a3a/ffffff?text=Ocean+1',
-            'https://placehold.co/800x450/2a3a4a/ffffff?text=Ocean+2',
-            'https://placehold.co/800x450/0a1a2a/ffffff?text=Ocean+3'
-        ],
-        download: '#'
-    },
-    sunset: {
-        title: '3',
-        version: 'v1.0',
-        desc: { en: '3d', ru: '3д' },
-        images: [
-            'https://placehold.co/800x450/3a2a1a/ffffff?text=3+1',
-            'https://placehold.co/800x450/4a3a2a/ffffff?text=3+2',
-            'https://placehold.co/800x450/2a1a0a/ffffff?text=3+3'
-        ],
-        download: '#'
-    },
-    forest: {
-        title: '4',
-        version: 'v1.0',
-        desc: { en: '4d', ru: '4д' },
-        images: [
-            'https://placehold.co/800x450/1a3a2a/ffffff?text=4+1',
-            'https://placehold.co/800x450/2a4a3a/ffffff?text=4+2',
-            'https://placehold.co/800x450/0a2a1a/ffffff?text=4+3'
-        ],
-        download: '#'
-    },
-    rose: {
-        title: '5',
-        version: 'v1.0',
-        desc: { en: '5d', ru: '5д' },
-        images: [
-            'https://placehold.co/800x450/3a1a2a/ffffff?text=5+1',
-            'https://placehold.co/800x450/4a2a3a/ffffff?text=5+2',
-            'https://placehold.co/800x450/2a0a1a/ffffff?text=5+3'
-        ],
-        download: '#'
-    },
-    mono: {
-        title: '6',
-        version: 'v1.0',
-        desc: { en: '6d', ru: '6д' },
-        images: [
-            'https://placehold.co/800x450/2a2a3a/ffffff?text=6+1',
-            'https://placehold.co/800x450/3a3a4a/ffffff?text=6+2',
-            'https://placehold.co/800x450/1a1a2a/ffffff?text=6+3'
+            'https://placehold.co/800x500/000000/6c6c6c?text=Coming soon...',
+            'https://placehold.co/800x500/000000/6c6c6c?text=Coming soon...',
+            'https://placehold.co/800x500/000000/6c6c6c?text=Coming soon...'
         ],
         download: '#'
     }

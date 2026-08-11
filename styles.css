@@ -65,9 +65,9 @@ body::before {
     position: fixed;
     inset: 0;
     background:
-        radial-gradient(ellipse 70vw 50vh at 15% 20%, rgba(120,120,140,0.04) 0%, transparent 60%),
-        radial-gradient(ellipse 60vw 45vh at 85% 80%, rgba(100,100,120,0.03) 0%, transparent 60%),
-        radial-gradient(ellipse 50vw 40vh at 50% 50%, rgba(140,140,160,0.02) 0%, transparent 60%);
+        radial-gradient(ellipse 70vw 50vh at 15% 20%, rgba(120,120,140,0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 60vw 45vh at 85% 80%, rgba(100,100,120,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 50vw 40vh at 50% 50%, rgba(140,140,160,0.08) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
     animation: ambientPulse 12s ease-in-out infinite alternate;
@@ -75,9 +75,9 @@ body::before {
 
 [data-theme="light"] body::before {
     background:
-        radial-gradient(ellipse 70vw 50vh at 15% 20%, rgba(180,180,200,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 60vw 45vh at 85% 80%, rgba(160,160,180,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 50vw 40vh at 50% 50%, rgba(200,200,220,0.04) 0%, transparent 60%);
+        radial-gradient(ellipse 70vw 50vh at 15% 20%, rgba(180,180,200,0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 60vw 45vh at 85% 80%, rgba(160,160,180,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 50vw 40vh at 50% 50%, rgba(200,200,220,0.08) 0%, transparent 60%);
 }
 
 @keyframes ambientPulse {
@@ -235,7 +235,7 @@ main {
     font-weight: 700;
     letter-spacing: -0.04em;
     margin-bottom: 10px;
-    background: linear-gradient(90deg, #e07070 0%, #c0a0e0 20%, #70b0e0 40%, #5283b1 60%, #e070a8 80%, #e07070 100%);
+    background: linear-gradient(90deg, #c26565 0%, #c0a0e0 20%, #70b0e0 40%, #5283b1 60%, #ad77af 80%, #c26565 100%);
     background-size: 300% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -244,7 +244,7 @@ main {
 }
 
 [data-theme="light"] .gradient-title {
-    background: linear-gradient(90deg, #c04040 0%, #9060b0 20%, #4080b0 40%, #409060 60%, #b09040 80%, #c04040 100%);
+    background: linear-gradient(90deg, #c26565 0%, #c0a0e0 20%, #70b0e0 40%, #5283b1 60%, #ad77af 80%, #c26565 100%);
     background-size: 300% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -364,7 +364,7 @@ main {
 }
 
 .card-half .card-icon {
-    width: 42px; height: 42px;
+    width: 72px; height: 72px;
     border-radius: 12px;
     margin-bottom: 2px;
 }
