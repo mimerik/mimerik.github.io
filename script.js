@@ -56,52 +56,10 @@ const skinData = {
     }
 };
 
-// ===== Language detection =====
-function detectLanguage() {
-    const saved = localStorage.getItem('mimerik-lang');
-    if (saved) return saved;
-
-    const navLang = navigator.language || navigator.userLanguage || '';
-    if (navLang.toLowerCase().startsWith('ru')) return 'ru';
-    if (navLang.toLowerCase().startsWith('uk') || navLang.toLowerCase().startsWith('be')) return 'ru';
-
-    try {
-        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const ruZones = [
-            'Europe/Moscow','Europe/Samara','Europe/Volgograd','Europe/Kirov','Europe/Astrakhan',
-            'Europe/Saratov','Europe/Ulyanovsk','Europe/Minsk','Europe/Kiev','Europe/Simferopol',
-            'Asia/Yekaterinburg','Asia/Omsk','Asia/Novosibirsk','Asia/Krasnoyarsk','Asia/Irkutsk',
-            'Asia/Yakutsk','Asia/Vladivostok','Asia/Magadan','Asia/Kamchatka','Asia/Sakhalin',
-            'Asia/Tomsk','Asia/Barnaul','Asia/Chita','Asia/Anadyr','Asia/Ust-Nera'
-        ];
-        if (ruZones.includes(tz)) return 'ru';
-    } catch(e) {}
-
-    return 'en';
-}
-
-// ===== Theme =====
-function getTheme() {
-    const saved = localStorage.getItem('mimerik-theme');
-    if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-}
-
-function setTheme(t) {
-    const html = document.documentElement;
-    if (t === 'light') {
-        html.setAttribute('data-theme', 'light');
-    } else {
-        html.removeAttribute('data-theme');
-    }
-    localStorage.setItem('mimerik-theme', t);
-}
-
 // ===== Language =====
 function getLang() {
     const saved = localStorage.getItem('mimerik-lang');
     if (saved) return saved;
-    // default english
     return 'en';
 }
 
@@ -127,6 +85,23 @@ function setLang(l) {
     localStorage.setItem('mimerik-lang', l);
 
     updateModalLang();
+}
+
+// ===== Theme =====
+function getTheme() {
+    const saved = localStorage.getItem('mimerik-theme');
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+
+function setTheme(t) {
+    const html = document.documentElement;
+    if (t === 'light') {
+        html.setAttribute('data-theme', 'light');
+    } else {
+        html.removeAttribute('data-theme');
+    }
+    localStorage.setItem('mimerik-theme', t);
 }
 
 // ===== Modal =====
@@ -272,8 +247,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Language - default en
-    setLang('en');
+    // Language
+    const currentLang = getLang();
+    setLang(currentLang);
 
     if (langBtn) {
         langBtn.addEventListener('click', function() {
