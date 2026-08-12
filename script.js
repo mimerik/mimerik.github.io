@@ -68,9 +68,9 @@ const skinData = {
         version: 'v0.0',
         desc: { en: '...', ru: '...' },
         images: [
-            'https://placehold.co/800x500/000000/6c6c6c?text=Coming soon...',
-            'https://placehold.co/800x500/000000/6c6c6c?text=Coming soon...',
-            'https://placehold.co/800x500/000000/6c6c6c?text=Coming soon...'
+            'https://placehold.co/800x500/000000/6c6c6c?text=Coming+soon...',
+            'https://placehold.co/800x500/000000/6c6c6c?text=Coming+soon...',
+            'https://placehold.co/800x500/000000/6c6c6c?text=Coming+soon...'
         ],
         download: '#'
     }
@@ -78,9 +78,7 @@ const skinData = {
 
 // ===== Language =====
 function getLang() {
-    const saved = localStorage.getItem('mimerik-lang');
-    if (saved) return saved;
-    return 'en';
+    return localStorage.getItem('mimerik-lang') || 'en';
 }
 
 function setLang(l) {
@@ -89,12 +87,16 @@ function setLang(l) {
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (t[key]) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.placeholder = t[key];
-            } else if (el.children.length === 0) {
-                // only touch text-only nodes so we never wipe SVG/nested content
-                el.textContent = t[key];
+        if (!t[key]) return;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = t[key];
+        } else {
+            // Replace only text nodes, preserve SVGs and nested elements
+            for (const node of el.childNodes) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    node.textContent = t[key];
+                    break;
+                }
             }
         }
     });
@@ -263,11 +265,9 @@ function setMainShot(index) {
 
     let targetTrack;
     if (currentThumb === count - 1 && next === 0) {
-        // Forwards wrap-around: roll through the cloned first screenshot
-        targetTrack = count + 1;
+        targetTrack = count + 1;      // Forwards wrap-around
     } else if (currentThumb === 0 && next === count - 1) {
-        // Backwards wrap-around: roll through the cloned last screenshot
-        targetTrack = 0;
+        targetTrack = 0;              // Backwards wrap-around
     } else {
         targetTrack = next + 1;
     }
@@ -300,9 +300,9 @@ document.addEventListener('transitionend', function(e) {
 
     isTransitioning = false;
     if (currentTrackIndex === 0) {
-        snapTrack(track, count);     // clone of last → real last screenshot
+        snapTrack(track, count);     // clone of last → real last
     } else if (currentTrackIndex === count + 1) {
-        snapTrack(track, 1);         // clone of first → real first screenshot
+        snapTrack(track, 1);         // clone of first → real first
     }
 });
 
@@ -321,6 +321,48 @@ function handleTouchEnd(e) {
         if (diff > 0) nextImage();
         else prevImage();
     }
+}
+
+// ===== MC Server: Copy IP =====
+function initMcCopy() {
+    const btn = document.getElementById('mcCopyBtn');
+    const input = document.getElementById('mcIp');
+    if (!btn || !input) return;
+
+    function tr(key) {
+        const l = getLang();
+        return (i18n[l] && i18n[l][key]) || '';
+    }
+
+    function restore() {
+        btn.textContent = tr('mcCopy') || (getLang() === 'ru' ? 'Скопировать' : 'Copy');
+        btn.classList.remove('copied');
+    }
+
+    function fallback(value, done) {
+        input.focus();
+        input.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        done();
+    }
+
+    btn.addEventListener('click', function () {
+        const value = (input.value || '').trim();
+        const done = function () {
+            btn.textContent = tr('mcCopied') || (getLang() === 'ru' ? 'Скопировано!' : 'Copied!');
+            btn.classList.add('copied');
+            setTimeout(restore, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).then(done, function () { fallback(value, done); });
+        } else {
+            fallback(value, done);
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('#langBtn')) setTimeout(restore, 50);
+    });
 }
 
 // ===== Initialization =====
@@ -426,6 +468,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isNaN(index)) setMainShot(index);
         });
     }
+
+    // MC Server copy
+    initMcCopy();
 
     // Navbar scroll optimization
     const navbar = document.querySelector('.navbar');
