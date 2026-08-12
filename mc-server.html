@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mimerik</title>
+    <title>minecraft server — mimerik</title>
     <link rel="icon" href="https://s.namemc.com/2d/skin/face.png?id=797f1263b0b15f46&scale=4" type="image/png">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
 <base target="_self">
@@ -46,40 +47,48 @@
 
     <main>
         <div class="hero">
-            <h1 data-i18n="title" class="gradient-title">main projects</h1>
-            <p data-i18n="subtitle">my osu and minecraft projects</p>
+            <h1 data-i18n="mcPageTitle" class="gradient-title">minecraft server</h1>
+            <p data-i18n="mcPageSubtitle">access, mod pack &amp; updates</p>
         </div>
 
-        <div class="cards cards-half">
-            <a href="osu-skins.html" class="card card-half" target="_self">
-                <div class="card-glass">
-                    <div class="card-icon osu">
-                        <img src="https://ameobea.b-cdn.net/osutrack/Mixins/userImage.php?u=15468975" alt="osu!" class="osu-avatar">
-                    </div>
-                    <h2 data-i18n="osuTitle">osu! skins</h2>
-                    <p data-i18n="osuDesc">custom self-maded skins collection</p>
-                    <span class="arrow">
-                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 10h12M10 4l6 6-6 6"/>
-                        </svg>
-                    </span>
-                </div>
-            </a>
-
-            <a href="mc-server.html" class="card card-half" target="_self">
-                <div class="card-glass">
-                    <div class="card-icon mc">
+        <div class="mc-sections">
+            <!-- Section 1: access & IP -->
+            <section class="mc-panel" id="mc-access">
+                <div class="mc-panel-head">
+                    <div class="mc-panel-icon mc">
                         <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/Homepage_Gameplay-Trailer_MC-OV-logo_300x300.png" alt="Minecraft" class="mc-logo">
                     </div>
-                    <h2 data-i18n="mcTitle">minecraft server</h2>
-                    <p data-i18n="mcDesc">my own fully vanilla minecraft server</p>
-                    <span class="arrow">
-                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 10h12M10 4l6 6-6 6"/>
-                        </svg>
-                    </span>
+                    <h2 data-i18n="mcSection1Title">access &amp; IP</h2>
                 </div>
-            </a>
+                <p class="mc-desc" data-i18n="mcSection1Desc">our private fully-vanilla server. buy access to get your invite, then copy the IP below and join in.</p>
+                <a href="https://discordapp.com/users/578286553923584016" target="_blank" rel="noopener" class="mc-buy" data-i18n="mcBuy">Buy access</a>
+                <div class="ip-field">
+                    <input type="text" class="ip-input" id="mcIp" value="play.mimerik.xyz" readonly aria-label="Server IP">
+                    <button class="mc-copy" id="mcCopyBtn" data-i18n="mcCopy">Copy</button>
+                </div>
+            </section>
+
+            <!-- Section 2: mod pack -->
+            <section class="mc-panel" id="mc-modpack">
+                <div class="mc-panel-head">
+                    <div class="mc-panel-icon mc">
+                        <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/Homepage_Gameplay-Trailer_MC-OV-logo_300x300.png" alt="Minecraft" class="mc-logo">
+                    </div>
+                    <h2 data-i18n="mcSection2Title">mod pack</h2>
+                    <span class="modal-version">v1.2</span>
+                </div>
+                <p class="mc-desc" data-i18n="mcSection2Desc">a curated collection of mods tuned for our server. download the pack and drop it in your mods folder.</p>
+                <div class="mc-actions">
+                    <a href="#" class="modal-download" download>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        <span data-i18n="download">Download</span>
+                    </a>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -94,6 +103,7 @@
             <a href="https://www.youtube.com/@UCnj5whAP9S4E3BdW3iuBWZA" target="_blank" rel="noopener" aria-label="YouTube">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             </a>
+
             <a href="https://t.me/+N1ald-0Hx380ODky" target="_blank" rel="noopener" aria-label="Telegram">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
             </a>
@@ -114,5 +124,46 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        (function () {
+            var btn = document.getElementById('mcCopyBtn');
+            var input = document.getElementById('mcIp');
+            if (!btn || !input) return;
+
+            function lang() { return window.getLang ? getLang() : 'en'; }
+            function tr(key) { return (window.i18n && i18n[lang()] && i18n[lang()][key]) || ''; }
+
+            function restore() {
+                btn.textContent = tr('mcCopy') || (lang() === 'ru' ? 'Скопировать' : 'Copy');
+                btn.classList.remove('copied');
+            }
+
+            function fallback(value, done) {
+                input.focus(); input.select();
+                try { document.execCommand('copy'); } catch (e) {}
+                done();
+            }
+
+            btn.addEventListener('click', function () {
+                var value = (input.value || input.getAttribute('value') || '').trim();
+                var done = function () {
+                    btn.textContent = tr('mcCopied') || (lang() === 'ru' ? 'Скопировано!' : 'Copied!');
+                    btn.classList.add('copied');
+                    setTimeout(restore, 1500);
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(value).then(done, function () { fallback(value, done); });
+                } else {
+                    fallback(value, done);
+                }
+            });
+
+            document.addEventListener('click', function (e) {
+                if (e.target.closest('#langBtn')) setTimeout(restore, 50);
+            });
+        })();
+    </script>
 </body>
 </html>
+
+

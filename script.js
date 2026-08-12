@@ -13,6 +13,16 @@ const i18n = {
         skin1Desc:   'smaller circlesize for easier reading',
         skin2Title:  'Coming soon...',
         skin2Desc:   '...',
+        mcPageTitle:    'minecraft server',
+        mcPageSubtitle: 'access, mod pack & updates',
+        mcSection1Title:'ip & access',
+        mcSection1Desc: 'my private fully-vanilla server. buy access to get your invite, then copy the ip below and join in',
+        mcBuy:          'buy access',
+        mcCopy:         'copy',
+        mcCopied:       'copied!',
+        mcSection2Title:'modpack',
+        mcSection2Desc: 'the modpack for optimisation and server-compability. download the pack and drop it in your mods folder or import with modrinth app',
+        support:        'support',
     },
     ru: {
         title:       'мои проекты',
@@ -28,6 +38,16 @@ const i18n = {
         skin1Desc:   'уменьшенные круги для лёгкого чтения',
         skin2Title:  'Скоро',
         skin2Desc:   '...',
+        mcPageTitle:    'minecraft сервер',
+        mcPageSubtitle: 'доступ, сборка и обновления',
+        mcSection1Title:'ip и доступ',
+        mcSection1Desc: 'мой приватный и полностью ванильный сервер. купи доступ, чтобы получить инвайт и присоединяйся',
+        mcBuy:          'купить доступ',
+        mcCopy:         'скопировать',
+        mcCopied:       'скопировано!',
+        mcSection2Title:'сборка модов',
+        mcSection2Desc: 'модпак для оптимизации и совместимости с сервером. скачай пак и помести его в папку mods или импортируй с помощью лаунчера modprinth',
+        support:        'поддержать',
     }
 };
 
@@ -72,7 +92,8 @@ function setLang(l) {
         if (t[key]) {
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                 el.placeholder = t[key];
-            } else {
+            } else if (el.children.length === 0) {
+                // only touch text-only nodes so we never wipe SVG/nested content
                 el.textContent = t[key];
             }
         }
@@ -106,7 +127,58 @@ function setTheme(t) {
 
 // ===== Modal =====
 let currentSkin = null;
-let currentThumb = 0;
+let currentThumb = 0;        // index inside currentImages being displayed
+let currentTrackIndex = 1;   // index inside .modal-track (0 = clone of last, N+1 = clone of first)
+let currentImages = [];      // skin.images of the open skin
+let isTransitioning = false; // lock while the track is animating
+
+function buildTrack(skin, track) {
+    if (!track || !currentImages.length) return;
+
+    track.innerHTML = '';
+
+    // Clone of the last screenshot at the start (smooth backwards wrap-around)
+    const lastClone = document.createElement('img');
+    lastClone.className = 'modal-main-img';
+    lastClone.alt = '';
+    lastClone.draggable = false;
+    lastClone.setAttribute('aria-hidden', 'true');
+    lastClone.src = currentImages[currentImages.length - 1];
+    track.appendChild(lastClone);
+
+    currentImages.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.className = 'modal-main-img';
+        img.alt = skin.title + ' screenshot ' + (i + 1);
+        img.draggable = false;
+        img.src = src;
+        track.appendChild(img);
+    });
+
+    // Clone of the first screenshot at the end (smooth forwards wrap-around)
+    const firstClone = document.createElement('img');
+    firstClone.className = 'modal-main-img';
+    firstClone.alt = '';
+    firstClone.draggable = false;
+    firstClone.setAttribute('aria-hidden', 'true');
+    firstClone.src = currentImages[0];
+    track.appendChild(firstClone);
+
+    // Position track on the first screenshot without animation
+    currentTrackIndex = 1;
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-100%)';
+    void track.offsetWidth;
+    track.style.transition = '';
+}
+
+function snapTrack(track, trackIndex) {
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (trackIndex * 100) + '%)';
+    currentTrackIndex = trackIndex;
+    void track.offsetWidth;
+    track.style.transition = '';
+}
 
 function openModal(skinKey) {
     const skin = skinData[skinKey];
@@ -114,16 +186,19 @@ function openModal(skinKey) {
 
     currentSkin = skinKey;
     currentThumb = 0;
+    currentTrackIndex = 1;
+    isTransitioning = false;
+    currentImages = skin.images || [];
 
     const modal = document.getElementById('skinModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalVersion = document.getElementById('modalVersion');
     const modalDesc = document.getElementById('modalDesc');
     const modalDownload = document.getElementById('modalDownload');
-    const modalMainImg = document.getElementById('modalMainImg');
+    const modalTrack = document.getElementById('modalTrack');
     const modalThumbs = document.querySelectorAll('.modal-thumb');
 
-    if (!modal || !modalTitle || !modalVersion || !modalDesc || !modalDownload || !modalMainImg) return;
+    if (!modal || !modalTitle || !modalVersion || !modalDesc || !modalDownload || !modalTrack) return;
 
     const lang = getLang();
     modalTitle.textContent = skin.title;
@@ -131,16 +206,13 @@ function openModal(skinKey) {
     modalDesc.textContent = skin.desc[lang] || skin.desc.en;
     modalDownload.href = skin.download;
 
-    if (skin.images && skin.images.length > 0) {
-        modalMainImg.src = skin.images[0];
-        modalMainImg.alt = skin.title + ' screenshot 1';
-    }
+    buildTrack(skin, modalTrack);
 
     modalThumbs.forEach((thumb, i) => {
-        if (skin.images && skin.images[i]) {
+        if (currentImages[i]) {
             const img = thumb.querySelector('.modal-thumb-img');
             if (img) {
-                img.src = skin.images[i].replace('800x450', '120x80');
+                img.src = currentImages[i].replace('800x450', '120x80');
                 img.alt = 'Thumbnail ' + (i + 1);
             }
             thumb.style.display = '';
@@ -173,47 +245,66 @@ function updateModalLang() {
     modalDesc.textContent = skin.desc[lang] || skin.desc.en;
 }
 
-function setMainShot(index) {
-    if (!currentSkin) return;
-    const skin = skinData[currentSkin];
-    const modalMainImg = document.getElementById('modalMainImg');
-    const modalThumbs = document.querySelectorAll('.modal-thumb');
-    if (!skin || !modalMainImg || !skin.images) return;
+function updateThumbs(index) {
+    document.querySelectorAll('.modal-thumb').forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === index);
+    });
+}
 
-    if (skin.images[index]) {
-        const currentSrc = modalMainImg.src;
-        const newSrc = skin.images[index];
-        if (currentSrc !== newSrc) {
-            const direction = index > currentThumb ? 'slide-left' : 'slide-right';
-            modalMainImg.classList.add(direction);
-            setTimeout(() => {
-                modalMainImg.src = newSrc;
-                modalMainImg.alt = skin.title + ' screenshot ' + (index + 1);
-                modalMainImg.classList.remove(direction);
-            }, 200);
-        }
-        currentThumb = index;
-        modalThumbs.forEach((thumb, i) => {
-            thumb.classList.toggle('active', i === index);
-        });
+function setMainShot(index) {
+    if (!currentSkin || isTransitioning) return;
+    const count = currentImages.length;
+    if (!count) return;
+    const track = document.getElementById('modalTrack');
+    if (!track) return;
+
+    const next = ((index % count) + count) % count;
+    if (next === currentThumb) return;
+
+    let targetTrack;
+    if (currentThumb === count - 1 && next === 0) {
+        // Forwards wrap-around: roll through the cloned first screenshot
+        targetTrack = count + 1;
+    } else if (currentThumb === 0 && next === count - 1) {
+        // Backwards wrap-around: roll through the cloned last screenshot
+        targetTrack = 0;
+    } else {
+        targetTrack = next + 1;
     }
+
+    currentThumb = next;
+    updateThumbs(next);
+
+    isTransitioning = true;
+    currentTrackIndex = targetTrack;
+    track.style.transform = 'translateX(-' + (targetTrack * 100) + '%)';
 }
 
 function nextImage() {
-    if (!currentSkin) return;
-    const skin = skinData[currentSkin];
-    if (!skin || !skin.images) return;
-    const next = (currentThumb + 1) % skin.images.length;
-    setMainShot(next);
+    if (!currentSkin || !currentImages.length) return;
+    setMainShot((currentThumb + 1) % currentImages.length);
 }
 
 function prevImage() {
-    if (!currentSkin) return;
-    const skin = skinData[currentSkin];
-    if (!skin || !skin.images) return;
-    const prev = (currentThumb - 1 + skin.images.length) % skin.images.length;
-    setMainShot(prev);
+    if (!currentSkin || !currentImages.length) return;
+    setMainShot((currentThumb - 1 + currentImages.length) % currentImages.length);
 }
+
+// After the track finishes sliding, snap clones back to their real twins
+document.addEventListener('transitionend', function(e) {
+    if (!currentSkin) return;
+    const track = document.getElementById('modalTrack');
+    if (!track || e.target !== track) return;
+    const count = currentImages.length;
+    if (!count) return;
+
+    isTransitioning = false;
+    if (currentTrackIndex === 0) {
+        snapTrack(track, count);     // clone of last → real last screenshot
+    } else if (currentTrackIndex === count + 1) {
+        snapTrack(track, 1);         // clone of first → real first screenshot
+    }
+});
 
 // ===== Swipe support =====
 let touchStartX = 0;
