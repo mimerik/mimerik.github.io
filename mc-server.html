@@ -47,51 +47,67 @@
         </div>
     </nav>
 
-    <main>
-        <div class="hero">
-            <h1 data-i18n="mcPageTitle" class="gradient-title">minecraft server</h1>
-            <p data-i18n="mcPageSubtitle">access, mod pack &amp; updates</p>
-        </div>
-
-        <div class="mc-sections">
-            <!-- Section 1: access & IP -->
-            <section class="mc-panel" id="mc-access">
-                <div class="mc-panel-head">
-                    <div class="mc-panel-icon mc">
-                        <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/Homepage_Gameplay-Trailer_MC-OV-logo_300x300.png" alt="Minecraft" class="mc-logo" width="56" height="56" loading="lazy">
+    <main class="mc-main">
+        <!-- Slide 1: Info -->
+        <section class="mc-slide" id="mc-slide-info" style="background-image: url('https://i.redd.it/xxuyjc71xl071.png');">
+            <div class="mc-slide-content">
+                <div class="mc-slide-glass">
+                    <div class="mc-panel-head">
+                        <div class="mc-panel-icon mc">
+                            <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/Homepage_Gameplay-Trailer_MC-OV-logo_300x300.png" alt="Minecraft" class="mc-logo" width="56" height="56" loading="lazy">
+                        </div>
+                        <h2 data-i18n="mcSection1Title">About the server</h2>
                     </div>
-                    <h2 data-i18n="mcSection1Title">access &amp; IP</h2>
+                    <p class="mc-desc" data-i18n="mcSection1Desc">my private fully-vanilla server. buy access to get your invite, then copy the ip below and join in</p>
+                    <a href="https://discordapp.com/users/578286553923584016" target="_blank" rel="noopener noreferrer" class="mc-buy" data-i18n="mcBuy">Buy access</a>
                 </div>
-                <p class="mc-desc" data-i18n="mcSection1Desc">our private fully-vanilla server. buy access to get your invite, then copy the IP below and join in.</p>
-                <a href="https://discordapp.com/users/578286553923584016" target="_blank" rel="noopener noreferrer" class="mc-buy" data-i18n="mcBuy">Buy access</a>
-                <div class="ip-field">
-                    <input type="text" class="ip-input" id="mcIp" value="play.mimerik.xyz" readonly aria-label="Server IP">
-                    <button class="mc-copy" id="mcCopyBtn" data-i18n="mcCopy" type="button">Copy</button>
-                </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Section 2: mod pack -->
-            <section class="mc-panel" id="mc-modpack">
-                <div class="mc-panel-head">
-                    <div class="mc-panel-icon mc">
-                        <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/Homepage_Gameplay-Trailer_MC-OV-logo_300x300.png" alt="Minecraft" class="mc-logo" width="56" height="56" loading="lazy">
+        <!-- Slide 2: Access & IP -->
+        <section class="mc-slide" id="mc-slide-access" style="background-image: url('https://i.redd.it/hfoc4mh5iaf41.png');">
+            <div class="mc-slide-content">
+                <div class="mc-slide-glass">
+                    <div class="mc-panel-head">
+                        <div class="mc-panel-icon mc">
+                            <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/Homepage_Gameplay-Trailer_MC-OV-logo_300x300.png" alt="Minecraft" class="mc-logo" width="56" height="56" loading="lazy">
+                        </div>
+                        <h2 data-i18n="mcSection1Title">IP &amp; access</h2>
                     </div>
-                    <h2 data-i18n="mcSection2Title">mod pack</h2>
-                    <span class="modal-version">v1.2</span>
+                    <p class="mc-desc" data-i18n="mcSection1Desc">copy the IP below and join in</p>
+                    <div class="ip-field">
+                        <input type="text" class="ip-input" id="mcIp" value="play.mimerik.xyz" readonly aria-label="Server IP">
+                        <button class="mc-copy" id="mcCopyBtn" data-i18n="mcCopy" type="button">Copy</button>
+                    </div>
                 </div>
-                <p class="mc-desc" data-i18n="mcSection2Desc">a curated collection of mods tuned for our server. download the pack and drop it in your mods folder.</p>
-                <div class="mc-actions">
-                    <a href="#" class="modal-download" download>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        <span data-i18n="download">Download</span>
-                    </a>
+            </div>
+        </section>
+
+        <!-- Slide 3: Modpack -->
+        <section class="mc-slide" id="mc-slide-modpack" style="background-image: url('https://i.redd.it/xrnce0bj3lk61.png');">
+            <div class="mc-slide-content">
+                <div class="mc-slide-glass">
+                    <div class="mc-panel-head">
+                        <div class="mc-panel-icon mc">
+                            <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/Homepage_Gameplay-Trailer_MC-OV-logo_300x300.png" alt="Minecraft" class="mc-logo" width="56" height="56" loading="lazy">
+                        </div>
+                        <h2 data-i18n="mcSection2Title">Mod pack</h2>
+                        <span class="modal-version">v1.2</span>
+                    </div>
+                    <p class="mc-desc" data-i18n="mcSection2Desc">download the pack and drop it in your mods folder</p>
+                    <div class="mc-actions">
+                        <a href="#" class="modal-download" download>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            <span data-i18n="download">Download</span>
+                        </a>
+                    </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
     </main>
 
     <footer>
