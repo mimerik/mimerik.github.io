@@ -37,6 +37,11 @@
     --glass-regular: rgba(20,21,25,0.58);
     --glass-regular-blur: 34px;
 
+    /* --- Modal Backdrop --- */
+    --modal-backdrop-bg: rgba(0,0,0,0.35);
+    --modal-backdrop-bg-light: rgba(0,0,0,0.25);
+    --modal-backdrop-blur: 26px;
+
     /* --- Акцент: приглушённый серо-голубой отлив стекла --- */
     --accent: #929aad;
     --accent-h: #aab1c1;
@@ -86,6 +91,8 @@
     --glass-specular: rgba(255,255,255,0.65);
 
     --glass-regular: rgba(255,255,255,0.62);
+
+    --modal-backdrop-bg: var(--modal-backdrop-bg-light);
 
     --accent: #5b5e68;
     --accent-h: #3d3f47;
@@ -176,7 +183,7 @@ body::before {
 }
 
 /* Плотное стекло — модалки, боковая панель уведомлений, выпадающие списки */
-.glass-regular, .modal-panel, .notif-panel,
+.glass-regular, .notif-panel,
 .filter-dropdown, .custom-select-dropdown {
     position: relative;
     background: var(--glass-regular);
@@ -193,8 +200,9 @@ body::before {
 .modal-close::before, .mc-copy::before, .modal-download::before,
 .mc-buy::before, .notif-btn::before, .notif-panel-close::before,
 .filter-trigger::before, .custom-select-trigger::before,
-.glass-regular::before, .modal-panel::before, .notif-panel::before,
-.filter-dropdown::before, .custom-select-dropdown::before {
+.glass-regular::before, .notif-panel::before,
+.filter-dropdown::before, .custom-select-dropdown::before,
+.modal-panel::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -410,6 +418,10 @@ body::before {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background: var(--glass-regular);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    border: 1px solid var(--border);
 }
 
 .notif-panel.open { right: 0; }
@@ -941,11 +953,20 @@ footer {
 .modal-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.50);
+    background: var(--modal-backdrop-bg);
+    backdrop-filter: blur(var(--modal-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--modal-backdrop-blur));
     cursor: pointer;
-    transition: background var(--t-slow);
+    transition: background var(--t-slow), backdrop-filter var(--t-slow);
+    opacity: 0;
+    will-change: opacity;
 }
-[data-theme="light"] .modal-backdrop { background: rgba(0,0,0,0.30); }
+
+.skin-modal.open .modal-backdrop {
+    opacity: 1;
+}
+
+[data-theme="light"] .modal-backdrop { background: var(--modal-backdrop-bg); }
 
 .modal-panel {
     position: relative;
@@ -962,6 +983,10 @@ footer {
     flex-direction: column;
     will-change: transform, opacity;
     box-shadow: var(--shadow-xl);
+    background: var(--glass-regular);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    border: 1px solid var(--border);
 }
 
 .skin-modal.open .modal-panel {
