@@ -37,6 +37,11 @@
     --glass-regular: rgba(20,21,25,0.58);
     --glass-regular-blur: 34px;
 
+    /* --- Modal Backdrop --- */
+    --modal-backdrop-bg: rgba(0,0,0,0.35);
+    --modal-backdrop-bg-light: rgba(0,0,0,0.25);
+    --modal-backdrop-blur: 26px;
+
     /* --- Акцент: приглушённый серо-голубой отлив стекла --- */
     --accent: #929aad;
     --accent-h: #aab1c1;
@@ -86,6 +91,8 @@
     --glass-specular: rgba(255,255,255,0.65);
 
     --glass-regular: rgba(255,255,255,0.62);
+
+    --modal-backdrop-bg: var(--modal-backdrop-bg-light);
 
     --accent: #5b5e68;
     --accent-h: #3d3f47;
@@ -166,8 +173,8 @@ body::before {
 .arrow, .filter-trigger, .custom-select-trigger {
     position: relative;
     background: var(--glass-tint);
-    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
     border: 1px solid var(--border);
     transition: background var(--t-fast), transform var(--t-fast),
                 box-shadow var(--t), border-color var(--t);
@@ -176,9 +183,9 @@ body::before {
 }
 
 /* Плотное стекло — модалки, боковая панель уведомлений, выпадающие списки */
-.glass-regular, .modal-panel, .notif-panel,
-.filter-dropdown, .custom-select-dropdown {
-    position: relative;
+.glass-regular, .notif-panel,
+.filter-dropdown{
+
     background: var(--glass-regular);
     backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
     -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
@@ -193,17 +200,14 @@ body::before {
 .modal-close::before, .mc-copy::before, .modal-download::before,
 .mc-buy::before, .notif-btn::before, .notif-panel-close::before,
 .filter-trigger::before, .custom-select-trigger::before,
-.glass-regular::before, .modal-panel::before, .notif-panel::before,
-.filter-dropdown::before, .custom-select-dropdown::before {
+.glass-regular::before, .notif-panel::before,
+.modal-panel::before {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(180deg, var(--glass-specular) 0%, transparent 28%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+
     pointer-events: none;
     opacity: 0.7;
     z-index: 1;
@@ -242,6 +246,7 @@ body::before {
     padding: 8px 10px;
     z-index: 100;
     box-shadow: var(--shadow-md);
+        background-color: rgba(0,0,0,0.08);
 }
 
 .logo {
@@ -410,6 +415,10 @@ body::before {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background: var(--glass-regular);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    border: 1px solid var(--border);
 }
 
 .notif-panel.open { right: 0; }
@@ -493,7 +502,7 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 110px 28px 72px;
+    padding: 96px 24px 16px;
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
@@ -936,16 +945,23 @@ footer {
     opacity: 1;
     pointer-events: auto;
     visibility: visible;
+    background-color: rgba(0,0,0,0.3);
+    transition: background var(--t-slow), backdrop-filter var(--t-slow);
 }
 
 .modal-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.50);
     cursor: pointer;
-    transition: background var(--t-slow);
+    opacity: 0;
+    will-change: opacity;
 }
-[data-theme="light"] .modal-backdrop { background: rgba(0,0,0,0.30); }
+
+.skin-modal.open .modal-backdrop {
+    opacity: 1;
+}
+
+[data-theme="light"] .modal-backdrop { background: var(--modal-backdrop-bg); }
 
 .modal-panel {
     position: relative;
@@ -962,11 +978,15 @@ footer {
     flex-direction: column;
     will-change: transform, opacity;
     box-shadow: var(--shadow-xl);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    border: 1px solid var(--border);
 }
 
 .skin-modal.open .modal-panel {
     transform: scale(1) translateY(0);
     opacity: 1;
+    
 }
 
 .modal-content {
@@ -1254,7 +1274,15 @@ footer {
     border-color: var(--border-h);
 }
 .modal-download svg { width: 18px; height: 18px; }
-
+.modal-download {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    gap: 8px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0; /* ← не сжимается */
+    white-space: nowrap; /* ← текст не переносится */
+}
 .modal-desc {
     font-size: 1rem;
     line-height: 1.6;
@@ -1274,7 +1302,7 @@ footer {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* ← не переносить на новую строку */
     margin-top: 4px;
     position: relative;
 }
@@ -1287,6 +1315,7 @@ footer {
     user-select: none;
     white-space: nowrap;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    flex-shrink: 0; /* ← не сжимается */
 }
 
 .modal-version-select-hidden {
@@ -1382,6 +1411,7 @@ footer {
 }
 
 .filter-dropdown.open {
+    
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
@@ -1441,11 +1471,9 @@ footer {
    ======================================== */
 .custom-select-wrapper {
     position: relative;
-    min-width: 4px;
-    flex-shrink: 1;
+    flex-shrink: 0;
     width: auto;
     min-width: 100px;
-    flex: 1 1 auto;
     max-width: 144px;
 }
 
@@ -1466,6 +1494,10 @@ footer {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     width: 100%;
     max-width: 144px;
+    background: var(--glass-tint);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    border: 1px solid var(--border);
 }
 
 .custom-select-trigger:hover {
@@ -1522,12 +1554,23 @@ footer {
     overflow-y: auto;
     transform-origin: bottom center;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    /* ← сохраняем эффект стекла */
+    background: rgba(20, 21, 25, 0.85); /* ← плотный фон для читаемости */
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
+    border: 1px solid var(--border);
+    isolation: isolate;
 }
+
+
+
 
 .custom-select-dropdown.open {
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
+    
 }
 
 .custom-select-option {
@@ -1543,6 +1586,7 @@ footer {
     transition: background var(--t-fast), color var(--t-fast);
     gap: 8px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
     background: transparent;
     justify-content: flex-start;
 }
@@ -1614,10 +1658,18 @@ footer {
     .modal-close svg { width: 16px; height: 16px; }
 
     .modal-version { font-size: 0.65rem; padding: 2px 10px; height: 22px; }
-    .modal-download { padding: 8px 16px; font-size: 0.8rem; height: 36px; }
+    .modal-download {
+        height: 36px;
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+    }
     .modal-download svg { width: 16px; height: 16px; }
-
-    .notif-panel { width: 100%; max-width: 100%; right: -100%; }
+    .modal-download-wrapper {
+        flex-wrap: nowrap; /* ← остаётся в одну линию */
+        gap: 6px;
+    }
+    .notif-panel { width: 100%; max-width: 100%; right: -10%; }
     .notif-panel.open { right: 0; }
     .notif-panel-header { padding: 12px 16px; }
     .notif-item { padding: 12px 16px; }
@@ -1664,7 +1716,7 @@ footer {
     
     .custom-select-wrapper {
         min-width: 80px;
-        flex: 1 1 auto;
+        flex-shrink: 0;
         max-width: 120px;
     }
     
