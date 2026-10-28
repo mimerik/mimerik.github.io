@@ -881,7 +881,7 @@ async function init() {
         const index = parseInt(item.dataset.index);
         if (!isNaN(index)) setMainShot(index);
     });
-
+ 
     document.addEventListener('keydown', e => {
         const modal = document.getElementById('skinModal');
         if (modal && modal.classList.contains('open')) {
